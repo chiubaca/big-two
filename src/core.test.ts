@@ -33,14 +33,27 @@ describe("getCardRank", () => {
 });
 
 describe("compareCards", () => {
-  const tests: [Card, Card, number][] = [
-    [{ value: "3", suit: "CLUB" }, { value: "3", suit: "DIAMOND" }, 1],
-    [{ value: "3", suit: "HEART" }, { value: "3", suit: "DIAMOND" }, 2],
-    [{ value: "3", suit: "SPADE" }, { value: "3", suit: "DIAMOND" }, 3],
-    [{ value: "4", suit: "CLUB" }, { value: "3", suit: "DIAMOND" }, 5],
-  ];
-
-  it("Comparison cards are higher", () => {
+  it("Base cards are higher than comparison cards", () => {
+    const tests: [Card, Card, number][] = [
+      [{ value: "3", suit: "CLUB" }, { value: "3", suit: "DIAMOND" }, 1],
+      [{ value: "3", suit: "HEART" }, { value: "3", suit: "DIAMOND" }, 2],
+      [{ value: "3", suit: "SPADE" }, { value: "3", suit: "DIAMOND" }, 3],
+      [{ value: "4", suit: "CLUB" }, { value: "3", suit: "DIAMOND" }, 5],
+      [{ value: "2", suit: "SPADE" }, { value: "3", suit: "DIAMOND" }, 51],
+    ];
+    tests.forEach(([baseCard, comparisonCard, expectedValue]) => {
+      const result = getComparisonCardValue(baseCard, comparisonCard);
+      assertEquals(result, expectedValue);
+    });
+  });
+  it("Base cards are  lower than comparison cards", () => {
+    const tests: [Card, Card, number][] = [
+      [{ value: "3", suit: "DIAMOND" }, { value: "3", suit: "CLUB" }, -1],
+      [{ value: "3", suit: "DIAMOND" }, { value: "3", suit: "HEART" }, -2],
+      [{ value: "3", suit: "DIAMOND" }, { value: "3", suit: "SPADE" }, -3],
+      [{ value: "3", suit: "DIAMOND" }, { value: "4", suit: "CLUB" }, -5],
+      [{ value: "3", suit: "DIAMOND" }, { value: "2", suit: "SPADE" }, -51],
+    ];
     tests.forEach(([baseCard, comparisonCard, expectedValue]) => {
       const result = getComparisonCardValue(baseCard, comparisonCard);
       assertEquals(result, expectedValue);
