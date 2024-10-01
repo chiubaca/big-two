@@ -1,5 +1,5 @@
 import { describe, it } from "jsr:@std/testing/bdd";
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals } from "jsr:@std/assert@1";
 import {
   createDeck,
   getCardRank,

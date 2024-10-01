@@ -24,10 +24,5 @@
         "jsr:@std/internal"
       ]
     }
-  },
-  "workspace": {
-    "dependencies": [
-      "jsr:@std/assert@1"
-    ]
   }
 }
