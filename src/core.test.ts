@@ -26,10 +26,9 @@ describe("getCardRank", () => {
     [{ value: "2", suit: "SPADE" }, 52],
   ];
 
-  tests.forEach((test) => {
-    const result = getCardRank(test[0]);
-    const value = test[1];
-    assertEquals(result, value);
+  tests.forEach(([card, expectedValue]) => {
+    const result = getCardRank(card);
+    assertEquals(result, expectedValue);
   });
 });
 
@@ -42,9 +41,9 @@ describe("compareCards", () => {
   ];
 
   it("Comparison cards are higher", () => {
-    tests.forEach((test) => {
-      const result = getComparisonCardValue(test[0], test[1]);
-      assertEquals(result, test[2]);
+    tests.forEach(([baseCard, comparisonCard, expectedValue]) => {
+      const result = getComparisonCardValue(baseCard, comparisonCard);
+      assertEquals(result, expectedValue);
     });
   });
 });
