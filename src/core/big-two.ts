@@ -20,6 +20,16 @@ export type Card = {
   value: (typeof value)[number];
 };
 
+/**
+ * Creates a standard deck of 52 playing cards for the Big Two game.
+ *
+ * This function generates a complete deck by combining each suit with each value.
+ * The deck is created in a specific order:
+ * - Suits: DIAMOND, CLUB, HEART, SPADE
+ * - Values: 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A, 2
+ *
+ * @returns An array of 52 `Card` objects, each representing a unique card in the deck.
+ */
 export function createDeck(): Card[] {
   return suits.flatMap((suit) => value.map((value) => ({ suit, value })));
 }
@@ -27,6 +37,8 @@ export function createDeck(): Card[] {
 /**
  * Returns the rank of a specific card, 1 being the lowest (3 of Diamond) and
  * 52 being the highest (2 of Spades).
+ * @param card A Card to get the rank for
+ * @returns A number representing the rank of the card
  */
 export function getCardRank(card: Card): number {
   const suitIndex = suits.indexOf(card.suit) + 1;

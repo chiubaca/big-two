@@ -5,7 +5,7 @@ import {
   getCardRank,
   getComparisonCardValue,
   type Card,
-} from "./core.ts";
+} from "./big-two.ts";
 
 describe("createDeck", () => {
   const deck = createDeck();
