@@ -20,16 +20,18 @@ export type Card = {
   value: (typeof value)[number];
 };
 
-export function getCardRank(card: Card): number {
-  // const valueIndex = value.indexOf(card.value) + 1;
-  const suitIndex = suits.indexOf(card.suit) + 1;
-  const valueStep = value.indexOf(card.value) * 4;
-
-  return valueStep + suitIndex;
-}
-
 export function createDeck(): Card[] {
   return suits.flatMap((suit) => value.map((value) => ({ suit, value })));
+}
+
+/**
+ * Returns the rank of a specific card, 1 being the lowest (3 of Diamond) and
+ * 52 being the highest (2 of Spades).
+ */
+export function getCardRank(card: Card): number {
+  const suitIndex = suits.indexOf(card.suit) + 1;
+  const valueStep = value.indexOf(card.value) * 4;
+  return valueStep + suitIndex;
 }
 
 /**
