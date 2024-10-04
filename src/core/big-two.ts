@@ -20,6 +20,8 @@ export type Card = {
   value: (typeof value)[number];
 };
 
+export type Pairs = [Card, Card];
+
 type RoundMode = "single" | "pairs" | "combo";
 
 /**
@@ -85,8 +87,10 @@ export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
   return getComparisonCardValue(baseCard, comparisonCard) > 0;
 }
 
-export function isDoubleBigger(): boolean {
-  return true;
+export function isPairBigger(basePair: Pairs, comparisonPair: Pairs): boolean {
+  const highestCardInBasePair = sortCards(basePair)[1];
+  const highestCardInComparisonPair = sortCards(comparisonPair)[1];
+  return isSingleBigger(highestCardInBasePair, highestCardInComparisonPair);
 }
 
 export function isComboBigger(): boolean {

@@ -5,6 +5,9 @@ import {
   createDeck,
   getCardRank,
   getComparisonCardValue,
+  isSingleBigger,
+  isPairBigger,
+  type Pairs,
   type Card,
 } from "./big-two.ts";
 
@@ -129,5 +132,105 @@ describe("sortCards", () => {
   it("should handle single card array", () => {
     const result = sortCards([{ suit: "HEART", value: "A" }]);
     assertEquals(result, [{ suit: "HEART", value: "A" }]);
+  });
+});
+
+describe("isSingleBigger", () => {
+  it("Base cards are higher than comparison cards", () => {
+    const tests: [Card, Card, boolean][] = [
+      [{ value: "A", suit: "HEART" }, { value: "K", suit: "SPADE" }, true],
+      [{ value: "J", suit: "CLUB" }, { value: "10", suit: "HEART" }, true],
+      [{ value: "Q", suit: "DIAMOND" }, { value: "J", suit: "SPADE" }, true],
+      [{ value: "2", suit: "CLUB" }, { value: "A", suit: "HEART" }, true],
+      [{ value: "5", suit: "SPADE" }, { value: "5", suit: "HEART" }, true],
+      [{ value: "8", suit: "DIAMOND" }, { value: "7", suit: "CLUB" }, true],
+      [{ value: "K", suit: "SPADE" }, { value: "K", suit: "HEART" }, true],
+    ];
+    tests.forEach(([baseCard, comparisonCard, expectedValue]) => {
+      const result = isSingleBigger(baseCard, comparisonCard);
+      assertEquals(result, expectedValue);
+    });
+  });
+  it("Base cards are lower than or equal to comparison cards", () => {
+    const tests: [Card, Card, boolean][] = [
+      [{ value: "K", suit: "SPADE" }, { value: "A", suit: "HEART" }, false],
+      [{ value: "10", suit: "HEART" }, { value: "J", suit: "CLUB" }, false],
+      [{ value: "J", suit: "SPADE" }, { value: "Q", suit: "DIAMOND" }, false],
+      [{ value: "A", suit: "HEART" }, { value: "2", suit: "CLUB" }, false],
+      [{ value: "5", suit: "HEART" }, { value: "5", suit: "SPADE" }, false],
+      [{ value: "7", suit: "CLUB" }, { value: "8", suit: "DIAMOND" }, false],
+      [{ value: "K", suit: "HEART" }, { value: "K", suit: "SPADE" }, false],
+    ];
+    tests.forEach(([baseCard, comparisonCard, expectedValue]) => {
+      const result = isSingleBigger(baseCard, comparisonCard);
+      assertEquals(result, expectedValue);
+    });
+  });
+});
+
+describe("isDoubleBigger", () => {
+  it("base double is higher than comparison double", () => {
+    const tests: [Pairs, Pairs, boolean][] = [
+      [
+        [
+          { value: "A", suit: "HEART" },
+          { value: "A", suit: "SPADE" },
+        ],
+        [
+          { value: "K", suit: "DIAMOND" },
+          { value: "K", suit: "CLUB" },
+        ],
+        true,
+      ],
+      [
+        [
+          { value: "2", suit: "CLUB" },
+          { value: "2", suit: "DIAMOND" },
+        ],
+        [
+          { value: "A", suit: "HEART" },
+          { value: "A", suit: "SPADE" },
+        ],
+        true,
+      ],
+      [
+        [
+          { value: "J", suit: "SPADE" },
+          { value: "J", suit: "HEART" },
+        ],
+        [
+          { value: "10", suit: "CLUB" },
+          { value: "10", suit: "DIAMOND" },
+        ],
+        true,
+      ],
+      [
+        [
+          { value: "Q", suit: "DIAMOND" },
+          { value: "Q", suit: "CLUB" },
+        ],
+        [
+          { value: "J", suit: "SPADE" },
+          { value: "J", suit: "HEART" },
+        ],
+        true,
+      ],
+      [
+        [
+          { value: "8", suit: "HEART" },
+          { value: "8", suit: "SPADE" },
+        ],
+        [
+          { value: "8", suit: "DIAMOND" },
+          { value: "8", suit: "CLUB" },
+        ],
+        true,
+      ],
+    ];
+
+    tests.forEach(([basePair, comparisonPair, expectedValue]) => {
+      const result = isPairBigger(basePair, comparisonPair);
+      assertEquals(result, expectedValue);
+    });
   });
 });
