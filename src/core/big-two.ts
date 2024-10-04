@@ -20,6 +20,8 @@ export type Card = {
   value: (typeof value)[number];
 };
 
+type RoundMode = "single" | "pairs" | "combo";
+
 /**
  * Creates a standard deck of 52 playing cards for the Big Two game.
  *
@@ -65,4 +67,28 @@ export function getComparisonCardValue(
   comparisonCard: Card
 ): number {
   return getCardRank(baseCard) - getCardRank(comparisonCard);
+}
+
+/**
+ * Sorts an array of `Card` objects in ascending order based on their rank.
+ *
+ * The rank of a card is determined by the `getCardRank` function, which takes into account both the card's value and suit.
+ *
+ * @param cards An array of `Card` objects to be sorted.
+ * @returns A new array of `Card` objects sorted in ascending order.
+ */
+export function sortCards(cards: Card[]): Card[] {
+  return cards.sort((a, b) => getCardRank(a) - getCardRank(b));
+}
+
+export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
+  return getComparisonCardValue(baseCard, comparisonCard) > 0;
+}
+
+export function isDoubleBigger(): boolean {
+  return true;
+}
+
+export function isComboBigger(): boolean {
+  return true;
 }
