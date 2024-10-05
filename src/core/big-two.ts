@@ -95,6 +95,17 @@ export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
 }
 
 /**
+ * Checks if a pair of cards is valid.
+ * A pair is considered valid if the two cards have the same value.
+ *
+ * @param pairs The pair of cards to validate.
+ * @returns boolean
+ */
+export function isPairValid(pairs: Pairs) {
+  return pairs[0].value === pairs[1].value;
+}
+
+/**
  * Compares two pairs of cards and determines if the base pair is bigger than the comparison pair.
  * Note: this does not validate if the cards are a valid pair. Use isPairValid to validate.
  *
