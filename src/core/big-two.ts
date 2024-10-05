@@ -87,6 +87,14 @@ export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
   return getComparisonCardValue(baseCard, comparisonCard) > 0;
 }
 
+/**
+ * Compares two pairs of cards and determines if the base pair is bigger than the comparison pair.
+ * Note: this does not validate if the cards are a valid pair. Use isPairValid to validate.
+ *
+ * @param basePair The pair of cards to compare against.
+ * @param comparisonPair The pair of cards to compare to the `basePair`.
+ * @returns A boolean value: true if `basePair` is bigger, false otherwise.
+ */
 export function isPairBigger(basePair: Pairs, comparisonPair: Pairs): boolean {
   const highestCardInBasePair = sortCards(basePair)[1];
   const highestCardInComparisonPair = sortCards(comparisonPair)[1];
