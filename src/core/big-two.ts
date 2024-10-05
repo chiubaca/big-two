@@ -83,6 +83,13 @@ export function sortCards(cards: Card[]): Card[] {
   return cards.sort((a, b) => getCardRank(a) - getCardRank(b));
 }
 
+/**
+ * Compares two cards and determines if the base card is bigger than the comparison card.
+ *
+ * @param baseCard The card to compare against.
+ * @param comparisonCard The card to compare to the `baseCard`.
+ * @returns A boolean value: true if `baseCard` is bigger, false otherwise.
+ */
 export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
   return getComparisonCardValue(baseCard, comparisonCard) > 0;
 }
