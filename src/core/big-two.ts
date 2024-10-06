@@ -119,6 +119,46 @@ export function isPairBigger(basePair: Pairs, comparisonPair: Pairs): boolean {
   return isSingleBigger(highestCardInBasePair, highestCardInComparisonPair);
 }
 
+/**
+ * Returns the sequence value of a card, where the lowest card (3) has a value of 1 and the highest card (2) has a value of 13.
+ *
+ * @param card The card to get the sequence value for.
+ * @returns number
+ */
+export function getSequenceValue(card: Card): number {
+  return value.indexOf(card.value) + 1;
+}
+
+export type ComboType =
+  | "STRAIGHT"
+  | "FLUSH"
+  | "FULL_HOUSE"
+  | "FOUR_OF_A_KIND"
+  | "STRAIGHT_FLUSH";
+
+export function validateComboType(cardCombo: Card[]): ComboType | null {
+  const isFlush = () =>
+    cardCombo.every((card) => card.suit === cardCombo[0].suit);
+
+  const isStraight = () => {
+    // NOTE this implement does not account for bicycle straights e.g:
+    // A,2,3,4,5
+    const cardValueSum = cardCombo.reduce((valueSum, currentCard) => {
+      return getSequenceValue(currentCard) + valueSum;
+    }, 0);
+    console.log(cardValueSum, Math.sqrt(cardValueSum) === 5);
+    return cardValueSum % 5 === 0;
+  };
+
+  if (cardCombo.length !== 5) {
+    return null;
+  }
+
+  if (isFlush()) return "FLUSH";
+  if (isStraight()) return "STRAIGHT";
+  return null;
+}
+
 export function isComboBigger(): boolean {
   return true;
 }

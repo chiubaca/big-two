@@ -9,6 +9,9 @@ import {
   isPairBigger,
   type Pairs,
   type Card,
+  type ComboType,
+  validateComboType,
+  getSequenceValue,
 } from "./big-two.ts";
 
 describe("createDeck", () => {
@@ -230,6 +233,80 @@ describe("isDoubleBigger", () => {
 
     tests.forEach(([basePair, comparisonPair, expectedValue]) => {
       const result = isPairBigger(basePair, comparisonPair);
+      assertEquals(result, expectedValue);
+    });
+  });
+});
+
+describe("getSequenceValue", () => {
+  const tests: [Card, number][] = [
+    [{ value: "3", suit: "CLUB" }, 1],
+    [{ value: "6", suit: "DIAMOND" }, 4],
+    [{ value: "2", suit: "CLUB" }, 13],
+  ];
+  tests.forEach(([card, expectedValue]) => {
+    const result = getSequenceValue(card);
+    assertEquals(result, expectedValue);
+  });
+});
+describe("validateComboType", () => {
+  it("can confirm the correct combo tyoe", () => {
+    const tests: [Card[], ComboType][] = [
+      [
+        [
+          { value: "J", suit: "SPADE" },
+          { value: "K", suit: "SPADE" },
+          { value: "3", suit: "SPADE" },
+          { value: "4", suit: "SPADE" },
+          { value: "8", suit: "SPADE" },
+        ],
+        "FLUSH",
+      ],
+      [
+        [
+          { value: "3", suit: "HEART" },
+          { value: "4", suit: "CLUB" },
+          { value: "5", suit: "DIAMOND" },
+          { value: "6", suit: "SPADE" },
+          { value: "7", suit: "SPADE" },
+        ],
+        "STRAIGHT",
+      ],
+      [
+        [
+          { value: "10", suit: "HEART" },
+          { value: "J", suit: "CLUB" },
+          { value: "Q", suit: "DIAMOND" },
+          { value: "K", suit: "SPADE" },
+          { value: "A", suit: "SPADE" },
+        ],
+        "STRAIGHT",
+      ],
+      // [
+      //   [
+      //     { value: "J", suit: "HEART" },
+      //     { value: "J", suit: "SPADE" },
+      //     { value: "J", suit: "DIAMOND" },
+      //     { value: "8", suit: "DIAMOND" },
+      //     { value: "8", suit: "SPADE" },
+      //   ],
+      //   "FULL_HOUSE",
+      // ],
+      // [
+      //   [
+      //     { value: "J", suit: "DIAMOND" },
+      //     { value: "J", suit: "CLUB" },
+      //     { value: "J", suit: "DIAMOND" },
+      //     { value: "J", suit: "DIAMOND" },
+      //     { value: "8", suit: "SPADE" },
+      //   ],
+      //   "FOUR_OF_A_KIND",
+      // ],
+      // tests for royal flush
+    ];
+
+    tests.forEach(([cardCombo, expectedValue]) => {
+      const result = validateComboType(cardCombo);
       assertEquals(result, expectedValue);
     });
   });
