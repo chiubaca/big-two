@@ -282,16 +282,16 @@ describe("validateComboType", () => {
         ],
         "STRAIGHT",
       ],
-      // [
-      //   [
-      //     { value: "J", suit: "HEART" },
-      //     { value: "J", suit: "SPADE" },
-      //     { value: "J", suit: "DIAMOND" },
-      //     { value: "8", suit: "DIAMOND" },
-      //     { value: "8", suit: "SPADE" },
-      //   ],
-      //   "FULL_HOUSE",
-      // ],
+      [
+        [
+          { value: "J", suit: "HEART" },
+          { value: "J", suit: "SPADE" },
+          { value: "J", suit: "DIAMOND" },
+          { value: "8", suit: "DIAMOND" },
+          { value: "8", suit: "SPADE" },
+        ],
+        "FULL_HOUSE",
+      ],
       // [
       //   [
       //     { value: "J", suit: "DIAMOND" },
