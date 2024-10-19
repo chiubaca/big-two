@@ -26,6 +26,8 @@ export function isFullHouse(cardCombo: CardCombo) {
    * This works by grouping unique card values into an object key and storing a .
    * count of common keys. We ensure the final count properties are either 3 or 2 as
    * this is the only count combo that is a valid full house.
+   *
+   * AI can 100% build a better validator than this!!
    */
   const valueCount: any = {};
 
