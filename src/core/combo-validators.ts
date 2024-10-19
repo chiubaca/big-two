@@ -53,6 +53,33 @@ export function isFullHouse(cardCombo: CardCombo) {
   return comboCheck.every((check) => check === true);
 }
 
+export function isFourOfAKind(cardCombo: CardCombo) {
+  // all this logic is the same as isFullHouse which is already bad!
+  // very ripe for refactoring!!
+  const valueCount: any = {};
+
+  for (let i = 0; i < cardCombo.length; i++) {
+    const currentCard = cardCombo[i];
+
+    if (valueCount[currentCard.value] === undefined) {
+      valueCount[currentCard.value] = 1;
+    } else {
+      valueCount[currentCard.value] = valueCount[currentCard.value] += 1;
+    }
+  }
+
+  const comboCheck = [];
+  for (const valueCountKey of Object.keys(valueCount)) {
+    if (valueCount[valueCountKey] === 1 || valueCount[valueCountKey] === 4) {
+      comboCheck.push(true);
+    } else {
+      comboCheck.push(false);
+    }
+  }
+
+  return comboCheck.every((check) => check === true);
+}
+
 export function validateComboType(cardCombo: Card[]): ComboType | null {
   if (cardCombo.length !== 5) return null;
 

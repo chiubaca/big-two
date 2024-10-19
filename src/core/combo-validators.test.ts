@@ -3,8 +3,9 @@ import { describe, it, test } from "jsr:@std/testing/bdd";
 
 import {
   isFlush,
-  isFullHouse,
   isStraight,
+  isFullHouse,
+  isFourOfAKind,
   validateComboType,
   type CardCombo,
   type ComboType,
@@ -80,6 +81,23 @@ describe("isFullHouse", () => {
     ];
     tests.forEach((cardCombo) => {
       assertEquals(isFullHouse(cardCombo), false);
+    });
+  });
+});
+
+describe("isFourOfAKind", () => {
+  test("is valid four of a kind", () => {
+    const tests: CardCombo[] = [
+      [
+        { value: "J", suit: "HEART" },
+        { value: "J", suit: "SPADE" },
+        { value: "J", suit: "DIAMOND" },
+        { value: "J", suit: "CLUB" },
+        { value: "8", suit: "SPADE" },
+      ],
+    ];
+    tests.forEach((cardCombo) => {
+      assertEquals(isFourOfAKind(cardCombo), true);
     });
   });
 });
