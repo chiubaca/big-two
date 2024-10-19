@@ -1,5 +1,12 @@
-const suits = ["DIAMOND", "CLUB", "HEART", "SPADE"] as const;
-const value = [
+import {
+  isFlush,
+  isStraight,
+  isFullHouse,
+  type CardCombo,
+} from "./combo-validators.ts";
+
+export const SUITS = ["DIAMOND", "CLUB", "HEART", "SPADE"] as const;
+export const CARD_VALUES = [
   "3",
   "4",
   "5",
@@ -16,8 +23,8 @@ const value = [
 ] as const;
 
 export type Card = {
-  suit: (typeof suits)[number];
-  value: (typeof value)[number];
+  suit: (typeof SUITS)[number];
+  value: (typeof CARD_VALUES)[number];
 };
 
 export type Pairs = [Card, Card];
@@ -35,7 +42,7 @@ type RoundMode = "single" | "pairs" | "combo";
  * @returns An array of 52 `Card` objects, each representing a unique card in the deck.
  */
 export function createDeck(): Card[] {
-  return suits.flatMap((suit) => value.map((value) => ({ suit, value })));
+  return SUITS.flatMap((suit) => CARD_VALUES.map((value) => ({ suit, value })));
 }
 
 /**
@@ -45,8 +52,8 @@ export function createDeck(): Card[] {
  * @returns A number representing the rank of the card
  */
 export function getCardRank(card: Card): number {
-  const suitIndex = suits.indexOf(card.suit) + 1;
-  const valueStep = value.indexOf(card.value) * 4;
+  const suitIndex = SUITS.indexOf(card.suit) + 1;
+  const valueStep = CARD_VALUES.indexOf(card.value) * 4;
   return valueStep + suitIndex;
 }
 
@@ -126,7 +133,7 @@ export function isPairBigger(basePair: Pairs, comparisonPair: Pairs): boolean {
  * @returns number
  */
 export function getSequenceValue(card: Card): number {
-  return value.indexOf(card.value) + 1;
+  return CARD_VALUES.indexOf(card.value) + 1;
 }
 
 export type ComboType =
@@ -137,54 +144,11 @@ export type ComboType =
   | "STRAIGHT_FLUSH";
 
 export function validateComboType(cardCombo: Card[]): ComboType | null {
-  const isFlush = () =>
-    cardCombo.every((card) => card.suit === cardCombo[0].suit);
+  if (cardCombo.length !== 5) return null;
 
-  const isStraight = () => {
-    // NOTE this implementation does not account for bicycle straights e.g:
-    // A,2,3,4,5
-    const cardValueSum = cardCombo.reduce((valueSum, currentCard) => {
-      return getSequenceValue(currentCard) + valueSum;
-    }, 0);
-    return cardValueSum % 5 === 0;
-  };
-
-  const isFullHouse = (cards: Card[]) => {
-    /**
-     * This works by grouping unique card values into an object key and storing a
-     * count of common keys. We ensure the final count properties are either 3 or 2 as
-     * this is the only count combo that is a valid full house.
-     */
-    const valueCount: any = {};
-
-    for (let i = 0; i < cards.length; i++) {
-      const currentCard = cards[i];
-
-      if (valueCount[currentCard.value] === undefined) {
-        valueCount[currentCard.value] = 1;
-      } else {
-        valueCount[currentCard.value] = valueCount[currentCard.value] += 1;
-      }
-      console.log({ valueCount });
-    }
-
-    for (const valueCountKey of Object.keys(valueCount)) {
-      if (valueCount[valueCountKey] === 2 || valueCount[valueCountKey] === 3) {
-        continue;
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  if (cardCombo.length !== 5) {
-    return null;
-  }
-
-  if (isFlush()) return "FLUSH";
-  if (isStraight()) return "STRAIGHT";
-  if (isFullHouse(cardCombo)) return "FULL_HOUSE";
+  if (isFlush(cardCombo as CardCombo)) return "FLUSH";
+  if (isStraight(cardCombo as CardCombo)) return "STRAIGHT";
+  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
   return null;
 }
 
