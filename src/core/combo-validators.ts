@@ -1,6 +1,12 @@
 import { getSequenceValue, type Card } from "./card-utils.ts";
 
 export type CardCombo = [Card, Card, Card, Card, Card];
+export type ComboType =
+  | "STRAIGHT"
+  | "FLUSH"
+  | "FULL_HOUSE"
+  | "FOUR_OF_A_KIND"
+  | "STRAIGHT_FLUSH";
 
 export function isFlush(cardCombo: CardCombo) {
   return cardCombo.every((card) => card.suit === cardCombo[0].suit);
@@ -42,5 +48,18 @@ export function isFullHouse(cardCombo: CardCombo) {
     return false;
   }
 
+  return true;
+}
+
+export function validateComboType(cardCombo: Card[]): ComboType | null {
+  if (cardCombo.length !== 5) return null;
+
+  if (isFlush(cardCombo as CardCombo)) return "FLUSH";
+  if (isStraight(cardCombo as CardCombo)) return "STRAIGHT";
+  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
+  return null;
+}
+
+export function isComboBigger(): boolean {
   return true;
 }

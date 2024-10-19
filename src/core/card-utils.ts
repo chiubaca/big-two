@@ -135,23 +135,3 @@ export function isPairBigger(basePair: Pairs, comparisonPair: Pairs): boolean {
 export function getSequenceValue(card: Card): number {
   return CARD_VALUES.indexOf(card.value) + 1;
 }
-
-export type ComboType =
-  | "STRAIGHT"
-  | "FLUSH"
-  | "FULL_HOUSE"
-  | "FOUR_OF_A_KIND"
-  | "STRAIGHT_FLUSH";
-
-export function validateComboType(cardCombo: Card[]): ComboType | null {
-  if (cardCombo.length !== 5) return null;
-
-  if (isFlush(cardCombo as CardCombo)) return "FLUSH";
-  if (isStraight(cardCombo as CardCombo)) return "STRAIGHT";
-  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
-  return null;
-}
-
-export function isComboBigger(): boolean {
-  return true;
-}
