@@ -300,3 +300,15 @@ describe("validateComboType", () => {
     });
   });
 });
+
+describe("getSequenceValue", () => {
+  const tests: [Card, number][] = [
+    [{ value: "3", suit: "CLUB" }, 1],
+    [{ value: "6", suit: "DIAMOND" }, 4],
+    [{ value: "2", suit: "CLUB" }, 13],
+  ];
+  tests.forEach(([card, expectedValue]) => {
+    const result = getSequenceValue(card);
+    assertEquals(result, expectedValue);
+  });
+});

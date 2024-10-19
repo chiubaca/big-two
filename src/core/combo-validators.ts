@@ -1,15 +1,6 @@
-import { CARD_VALUES, type Card } from "./big-two.ts";
+import { getSequenceValue, type Card } from "./big-two.ts";
 
 export type CardCombo = [Card, Card, Card, Card, Card];
-/**
- * Returns the sequence value of a card, where the lowest card (3) has a value of 1 and the highest card (2) has a value of 13.
- *
- * @param card The card to get the sequence value for.
- * @returns number
- */
-export function getSequenceValue(card: Card): number {
-  return CARD_VALUES.indexOf(card.value) + 1;
-}
 
 export function isFlush(cardCombo: CardCombo) {
   return cardCombo.every((card) => card.suit === cardCombo[0].suit);

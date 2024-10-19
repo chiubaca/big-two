@@ -2,25 +2,11 @@ import { assertEquals } from "jsr:@std/assert@1";
 import { describe, it, test } from "jsr:@std/testing/bdd";
 
 import {
-  getSequenceValue,
   isFlush,
   isFullHouse,
   isStraight,
   type CardCombo,
 } from "./combo-validators.ts";
-import { type Card } from "./big-two.ts";
-
-describe("getSequenceValue", () => {
-  const tests: [Card, number][] = [
-    [{ value: "3", suit: "CLUB" }, 1],
-    [{ value: "6", suit: "DIAMOND" }, 4],
-    [{ value: "2", suit: "CLUB" }, 13],
-  ];
-  tests.forEach(([card, expectedValue]) => {
-    const result = getSequenceValue(card);
-    assertEquals(result, expectedValue);
-  });
-});
 
 describe("isFlush", () => {
   it("validate a flush", () => {
