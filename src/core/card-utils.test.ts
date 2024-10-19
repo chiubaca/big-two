@@ -12,7 +12,7 @@ import {
   type ComboType,
   validateComboType,
   getSequenceValue,
-} from "./big-two.ts";
+} from "./card-utils.ts";
 
 describe("createDeck", () => {
   const deck = createDeck();

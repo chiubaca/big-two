@@ -1,4 +1,4 @@
-import { getSequenceValue, type Card } from "./big-two.ts";
+import { getSequenceValue, type Card } from "./card-utils.ts";
 
 export type CardCombo = [Card, Card, Card, Card, Card];
 
