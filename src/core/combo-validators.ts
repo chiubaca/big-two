@@ -37,18 +37,18 @@ export function isFullHouse(cardCombo: CardCombo) {
     } else {
       valueCount[currentCard.value] = valueCount[currentCard.value] += 1;
     }
-    console.log({ valueCount });
   }
 
+  const comboCheck = [];
   for (const valueCountKey of Object.keys(valueCount)) {
-    console.log("check");
     if (valueCount[valueCountKey] === 2 || valueCount[valueCountKey] === 3) {
-      continue;
+      comboCheck.push(true);
+    } else {
+      comboCheck.push(false);
     }
-    return false;
   }
 
-  return true;
+  return comboCheck.every((check) => check === true);
 }
 
 export function validateComboType(cardCombo: Card[]): ComboType | null {
