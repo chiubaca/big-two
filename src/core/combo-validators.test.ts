@@ -65,6 +65,12 @@ describe("isFourOfAKind", () => {
       assertEquals(isFourOfAKind(cardCombo), true);
     });
   });
+  test("it not a valid four of a kind", () => {
+    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE];
+    tests.forEach((cardCombo) => {
+      assertEquals(isFourOfAKind(cardCombo), false);
+    });
+  });
 });
 
 describe("validateComboType", () => {
@@ -75,6 +81,7 @@ describe("validateComboType", () => {
       [comboStubs.STRAIGHT_10_A, "STRAIGHT"],
       [comboStubs.FULL_HOUSE_J_8, "FULL_HOUSE"],
       [comboStubs.FOUR_OF_A_KIND_J, "FOUR_OF_A_KIND"],
+      [comboStubs.STRAIGHT_FLUSH_SPADE_3_7, "STRAIGHT_FLUSH"],
     ];
 
     tests.forEach(([cardCombo, expectedValue]) => {
