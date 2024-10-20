@@ -11,18 +11,11 @@ import {
   type ComboType,
 } from "./combo-validators.ts";
 import type { Card } from "./card-utils.ts";
+import { comboStubs } from "./stubs.ts";
 
 describe("isFlush", () => {
   it("validate a flush", () => {
-    const tests: CardCombo[] = [
-      [
-        { value: "J", suit: "SPADE" },
-        { value: "K", suit: "SPADE" },
-        { value: "3", suit: "SPADE" },
-        { value: "4", suit: "SPADE" },
-        { value: "8", suit: "SPADE" },
-      ],
-    ];
+    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE];
     tests.forEach((cardCombo) => {
       const result = isFlush(cardCombo);
       assertEquals(result, true);
@@ -33,20 +26,8 @@ describe("isFlush", () => {
 describe("isStraight", () => {
   it("validates a straight", () => {
     const tests: CardCombo[] = [
-      [
-        { value: "3", suit: "HEART" },
-        { value: "4", suit: "CLUB" },
-        { value: "5", suit: "DIAMOND" },
-        { value: "6", suit: "SPADE" },
-        { value: "7", suit: "SPADE" },
-      ],
-      [
-        { value: "10", suit: "HEART" },
-        { value: "J", suit: "CLUB" },
-        { value: "Q", suit: "DIAMOND" },
-        { value: "K", suit: "SPADE" },
-        { value: "A", suit: "SPADE" },
-      ],
+      comboStubs.STRAIGHT_3_7,
+      comboStubs.STRAIGHT_10_A,
     ];
     tests.forEach((cardCombo) => {
       assertEquals(isStraight(cardCombo), true);
@@ -56,15 +37,7 @@ describe("isStraight", () => {
 
 describe("isFullHouse", () => {
   test("validates a full house", () => {
-    const tests: CardCombo[] = [
-      [
-        { value: "J", suit: "HEART" },
-        { value: "J", suit: "SPADE" },
-        { value: "J", suit: "DIAMOND" },
-        { value: "8", suit: "DIAMOND" },
-        { value: "8", suit: "SPADE" },
-      ],
-    ];
+    const tests: CardCombo[] = [comboStubs.FULL_HOUSE_J_8];
     tests.forEach((cardCombo) => {
       assertEquals(isFullHouse(cardCombo), true);
     });
@@ -87,15 +60,7 @@ describe("isFullHouse", () => {
 
 describe("isFourOfAKind", () => {
   test("is valid four of a kind", () => {
-    const tests: CardCombo[] = [
-      [
-        { value: "J", suit: "HEART" },
-        { value: "J", suit: "SPADE" },
-        { value: "J", suit: "DIAMOND" },
-        { value: "J", suit: "CLUB" },
-        { value: "8", suit: "SPADE" },
-      ],
-    ];
+    const tests: CardCombo[] = [comboStubs.FOUR_OF_A_KIND_J];
     tests.forEach((cardCombo) => {
       assertEquals(isFourOfAKind(cardCombo), true);
     });
@@ -105,57 +70,11 @@ describe("isFourOfAKind", () => {
 describe("validateComboType", () => {
   it("can confirm the correct combo tyoe", () => {
     const tests: [Card[], ComboType][] = [
-      [
-        [
-          { value: "J", suit: "SPADE" },
-          { value: "K", suit: "SPADE" },
-          { value: "3", suit: "SPADE" },
-          { value: "4", suit: "SPADE" },
-          { value: "8", suit: "SPADE" },
-        ],
-        "FLUSH",
-      ],
-      [
-        [
-          { value: "3", suit: "HEART" },
-          { value: "4", suit: "CLUB" },
-          { value: "5", suit: "DIAMOND" },
-          { value: "6", suit: "SPADE" },
-          { value: "7", suit: "SPADE" },
-        ],
-        "STRAIGHT",
-      ],
-      [
-        [
-          { value: "10", suit: "HEART" },
-          { value: "J", suit: "CLUB" },
-          { value: "Q", suit: "DIAMOND" },
-          { value: "K", suit: "SPADE" },
-          { value: "A", suit: "SPADE" },
-        ],
-        "STRAIGHT",
-      ],
-      [
-        [
-          { value: "J", suit: "HEART" },
-          { value: "J", suit: "SPADE" },
-          { value: "J", suit: "DIAMOND" },
-          { value: "8", suit: "DIAMOND" },
-          { value: "8", suit: "SPADE" },
-        ],
-        "FULL_HOUSE",
-      ],
-      // [
-      //   [
-      //     { value: "J", suit: "DIAMOND" },
-      //     { value: "J", suit: "CLUB" },
-      //     { value: "J", suit: "DIAMOND" },
-      //     { value: "J", suit: "DIAMOND" },
-      //     { value: "8", suit: "SPADE" },
-      //   ],
-      //   "FOUR_OF_A_KIND",
-      // ],
-      // tests for royal flush
+      [comboStubs.FLUSH_SPADE, "FLUSH"],
+      [comboStubs.STRAIGHT_3_7, "STRAIGHT"],
+      [comboStubs.STRAIGHT_10_A, "STRAIGHT"],
+      [comboStubs.FULL_HOUSE_J_8, "FULL_HOUSE"],
+      [comboStubs.FOUR_OF_A_KIND_J, "FOUR_OF_A_KIND"],
     ];
 
     tests.forEach(([cardCombo, expectedValue]) => {
