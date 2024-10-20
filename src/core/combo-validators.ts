@@ -23,69 +23,55 @@ export function isStraight(cardCombo: CardCombo) {
 
 export function isFullHouse(cardCombo: CardCombo) {
   /**
-   * This works by grouping unique card values into an object key and storing a .
-   * count of common keys. We ensure the final count properties are either 3 or 2 as
-   * this is the only count combo that is a valid full house.
-   *
-   * AI can 100% build a better validator than this!!
+   * We build up an hashmap to count unique card values
+   * the end object will looks something like:
+   * {
+   *   "K":2,
+   *   "5": 3
+   * }
    */
-  const valueCount: any = {};
-
-  for (let i = 0; i < cardCombo.length; i++) {
-    const currentCard = cardCombo[i];
-
-    if (valueCount[currentCard.value] === undefined) {
-      valueCount[currentCard.value] = 1;
-    } else {
-      valueCount[currentCard.value] = valueCount[currentCard.value] += 1;
-    }
+  const valueCounts: { [key: string]: number } = {};
+  for (const card of cardCombo) {
+    valueCounts[card.value] = (valueCounts[card.value] || 0) + 1;
+    /**
+     * Here we convert the hashmap key into array, e.g: [K,5]
+     * if at any point this array becomes greater than 2 we can exit early.
+     */
+    if (Object.keys(valueCounts).length > 2) return false;
   }
 
-  const comboCheck = [];
-  for (const valueCountKey of Object.keys(valueCount)) {
-    if (valueCount[valueCountKey] === 2 || valueCount[valueCountKey] === 3) {
-      comboCheck.push(true);
-    } else {
-      comboCheck.push(false);
-    }
-  }
-
-  return comboCheck.every((check) => check === true);
+  /**
+   * Here we create an array of just the counts and we check we're
+   * getting a count of 2 and 3.
+   */
+  const counts = Object.values(valueCounts).toSorted((a, b) => a - b);
+  return counts[0] === 2 && counts[1] === 3;
 }
 
 export function isFourOfAKind(cardCombo: CardCombo) {
-  // all this logic is the same as isFullHouse which is already bad!
-  // very ripe for refactoring!!
-  const valueCount: any = {};
-
-  for (let i = 0; i < cardCombo.length; i++) {
-    const currentCard = cardCombo[i];
-
-    if (valueCount[currentCard.value] === undefined) {
-      valueCount[currentCard.value] = 1;
-    } else {
-      valueCount[currentCard.value] = valueCount[currentCard.value] += 1;
-    }
+  // all this logic is the same as isFullHouse.
+  const valueCounts: { [key: string]: number } = {};
+  for (const card of cardCombo) {
+    valueCounts[card.value] = (valueCounts[card.value] || 0) + 1;
+    /**
+     * Here we convert the hashmap key into array, e.g: [K,5]
+     * if at any point this array becomes greater than 2 we can exit early.
+     */
+    if (Object.keys(valueCounts).length > 2) return false;
   }
-
-  const comboCheck = [];
-  for (const valueCountKey of Object.keys(valueCount)) {
-    if (valueCount[valueCountKey] === 1 || valueCount[valueCountKey] === 4) {
-      comboCheck.push(true);
-    } else {
-      comboCheck.push(false);
-    }
-  }
-
-  return comboCheck.every((check) => check === true);
+  const counts = Object.values(valueCounts).toSorted((a, b) => a - b);
+  return counts[0] === 1 && counts[1] === 4;
 }
 
 export function validateComboType(cardCombo: Card[]): ComboType | null {
   if (cardCombo.length !== 5) return null;
 
+  if (isFlush(cardCombo as CardCombo) && isStraight(cardCombo as CardCombo))
+    return "STRAIGHT_FLUSH";
+  if (isFourOfAKind(cardCombo as CardCombo)) return "FOUR_OF_A_KIND";
+  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
   if (isFlush(cardCombo as CardCombo)) return "FLUSH";
   if (isStraight(cardCombo as CardCombo)) return "STRAIGHT";
-  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
   return null;
 }
 
