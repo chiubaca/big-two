@@ -63,16 +63,28 @@ export function isFourOfAKind(cardCombo: CardCombo) {
   return counts[0] === 1 && counts[1] === 4;
 }
 
-export function validateComboType(cardCombo: Card[]): ComboType | null {
+export type ValidatedCardCombination = {
+  type: ComboType;
+  cards: CardCombo;
+} | null;
+export function validateComboType(
+  cardCombo: Card[]
+): ValidatedCardCombination | null {
   if (cardCombo.length !== 5) return null;
 
-  if (isFlush(cardCombo as CardCombo) && isStraight(cardCombo as CardCombo))
-    return "STRAIGHT_FLUSH";
-  if (isFourOfAKind(cardCombo as CardCombo)) return "FOUR_OF_A_KIND";
-  if (isFullHouse(cardCombo as CardCombo)) return "FULL_HOUSE";
-  if (isFlush(cardCombo as CardCombo)) return "FLUSH";
-  if (isStraight(cardCombo as CardCombo)) return "STRAIGHT";
+  const cards = cardCombo as CardCombo;
+
+  if (isFlush(cards) && isStraight(cards))
+    return { type: "STRAIGHT_FLUSH", cards };
+  if (isFourOfAKind(cards)) return { type: "FOUR_OF_A_KIND", cards };
+  if (isFullHouse(cards)) return { type: "FULL_HOUSE", cards };
+  if (isFlush(cards)) return { type: "FLUSH", cards };
+  if (isStraight(cards)) return { type: "STRAIGHT", cards };
   return null;
+}
+
+export function isStraightBigger(): boolean {
+  return true;
 }
 
 export function isComboBigger(): boolean {

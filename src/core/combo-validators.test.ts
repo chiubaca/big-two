@@ -9,8 +9,8 @@ import {
   validateComboType,
   type CardCombo,
   type ComboType,
+  type ValidatedCardCombination,
 } from "./combo-validators.ts";
-import type { Card } from "./card-utils.ts";
 import { comboStubs } from "./stubs.ts";
 
 describe("isFlush", () => {
@@ -75,7 +75,7 @@ describe("isFourOfAKind", () => {
 
 describe("validateComboType", () => {
   it("can confirm the correct combo tyoe", () => {
-    const tests: [Card[], ComboType][] = [
+    const tests: [CardCombo, ComboType][] = [
       [comboStubs.FLUSH_SPADE, "FLUSH"],
       [comboStubs.STRAIGHT_3_7, "STRAIGHT"],
       [comboStubs.STRAIGHT_10_A, "STRAIGHT"],
@@ -84,9 +84,12 @@ describe("validateComboType", () => {
       [comboStubs.STRAIGHT_FLUSH_SPADE_3_7, "STRAIGHT_FLUSH"],
     ];
 
-    tests.forEach(([cardCombo, expectedValue]) => {
+    tests.forEach(([cardCombo, comboType]) => {
       const result = validateComboType(cardCombo);
-      assertEquals(result, expectedValue);
+      assertEquals(result, {
+        type: comboType,
+        cards: cardCombo,
+      } satisfies ValidatedCardCombination);
     });
   });
 });
