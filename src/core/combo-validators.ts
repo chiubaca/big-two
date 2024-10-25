@@ -1,4 +1,9 @@
-import { getSequenceValue, type Card } from "./card-utils.ts";
+import {
+  getComparisonCardValue,
+  getSequenceValue,
+  sortCards,
+  type Card,
+} from "./card-utils.ts";
 
 export type CardCombo = [Card, Card, Card, Card, Card];
 export type ComboType =
@@ -87,7 +92,12 @@ export function isFlushBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
-  return true;
+  const highestBaseComboCard = sortCards(baseCardCombo).at(-1)!;
+  const highestComparisonComboCard = sortCards(comparisonCardCombo).at(-1)!;
+
+  return (
+    getComparisonCardValue(highestBaseComboCard, highestComparisonComboCard) > 0
+  );
 }
 
 export function isStraightBigger(
