@@ -103,8 +103,9 @@ describe("test combo comparisons", () => {
   test("isFlushBigger", () => {
     const tests: [CardCombo, CardCombo, boolean][] = [
       [comboStubs.FLUSH_SPADE_K, comboStubs.FLUSH_DIAMOND_Q, true],
-      [comboStubs.FLUSH_HEART_2, comboStubs.FLUSH_SPADE_K, false],
-      [comboStubs.FLUSH_SPADE_2, comboStubs.FLUSH_SPADE_K, true],
+      [comboStubs.FLUSH_HEART_2, comboStubs.FLUSH_SPADE_K, true],
+      [comboStubs.FLUSH_CLUB_K, comboStubs.FLUSH_SPADE_K, false],
+      [comboStubs.FLUSH_SPADE_K, comboStubs.FLUSH_SPADE_2, false],
     ];
     tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
       const result = isFlushBigger(baseCombo, comparisonCombo);
