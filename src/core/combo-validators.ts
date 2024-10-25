@@ -83,7 +83,38 @@ export function validateComboType(
   return null;
 }
 
-export function isStraightBigger(): boolean {
+export function isFlushBigger(
+  baseCardCombo: CardCombo,
+  comparisonCardCombo: CardCombo
+): boolean {
+  return true;
+}
+
+export function isStraightBigger(
+  baseCardCombo: CardCombo,
+  comparisonCardCombo: CardCombo
+): boolean {
+  return true;
+}
+
+export function isFullHouseBigger(
+  baseCardCombo: CardCombo,
+  comparisonCardCombo: CardCombo
+): boolean {
+  return true;
+}
+
+export function isFourOfAKindBigger(
+  baseCardCombo: CardCombo,
+  comparisonCardCombo: CardCombo
+): boolean {
+  return true;
+}
+
+export function isStraightFlushBigger(
+  baseCardCombo: CardCombo,
+  comparisonCardCombo: CardCombo
+): boolean {
   return true;
 }
 

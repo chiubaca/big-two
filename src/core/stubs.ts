@@ -148,4 +148,11 @@ export const comboStubs = {
     { value: "7", suit: "CLUB" },
     { value: "8", suit: "CLUB" },
   ],
+  STRAIGHT_FLUSH_CLUB_5_9: [
+    { value: "5", suit: "CLUB" },
+    { value: "6", suit: "CLUB" },
+    { value: "7", suit: "CLUB" },
+    { value: "8", suit: "CLUB" },
+    { value: "9", suit: "CLUB" },
+  ],
 } satisfies Record<string, CardCombo>;

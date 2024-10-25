@@ -10,12 +10,17 @@ import {
   type CardCombo,
   type ComboType,
   type ValidatedCardCombination,
+  isFlushBigger,
+  isStraightBigger,
+  isFullHouseBigger,
+  isFourOfAKindBigger,
+  isStraightFlushBigger,
 } from "./combo-validators.ts";
 import { comboStubs } from "./stubs.ts";
 
 describe("isFlush", () => {
   it("validate a flush", () => {
-    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE];
+    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE_K];
     tests.forEach((cardCombo) => {
       const result = isFlush(cardCombo);
       assertEquals(result, true);
@@ -66,7 +71,7 @@ describe("isFourOfAKind", () => {
     });
   });
   test("it not a valid four of a kind", () => {
-    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE];
+    const tests: CardCombo[] = [comboStubs.FLUSH_SPADE_K];
     tests.forEach((cardCombo) => {
       assertEquals(isFourOfAKind(cardCombo), false);
     });
@@ -76,7 +81,7 @@ describe("isFourOfAKind", () => {
 describe("validateComboType", () => {
   it("can confirm the correct combo tyoe", () => {
     const tests: [CardCombo, ComboType][] = [
-      [comboStubs.FLUSH_SPADE, "FLUSH"],
+      [comboStubs.FLUSH_SPADE_K, "FLUSH"],
       [comboStubs.STRAIGHT_3_7, "STRAIGHT"],
       [comboStubs.STRAIGHT_10_A, "STRAIGHT"],
       [comboStubs.FULL_HOUSE_J_8, "FULL_HOUSE"],
@@ -92,4 +97,76 @@ describe("validateComboType", () => {
       } satisfies ValidatedCardCombination);
     });
   });
+});
+
+describe("test combo comparisons", () => {
+  test("isFlushBigger", () => {
+    const tests: [CardCombo, CardCombo, boolean][] = [
+      [comboStubs.FLUSH_SPADE_K, comboStubs.FLUSH_DIAMOND_Q, true],
+      [comboStubs.FLUSH_HEART_2, comboStubs.FLUSH_SPADE_K, false],
+      [comboStubs.FLUSH_SPADE_2, comboStubs.FLUSH_SPADE_K, true],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isFlushBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
+
+  // test("isStraightBigger", () => {
+  //   const tests: [CardCombo, CardCombo, boolean][] = [
+  //     [comboStubs.STRAIGHT_10_A, comboStubs.STRAIGHT_3_7, true],
+  //     [comboStubs.STRAIGHT_7_J, comboStubs.STRAIGHT_5_9, true],
+  //     [comboStubs.STRAIGHT_3_7, comboStubs.STRAIGHT_5_9, false],
+  //   ];
+  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+  //     const result = isStraightBigger(baseCombo, comparisonCombo);
+  //     assertEquals(result, expectedResult);
+  //   });
+  // });
+
+  // test("isFullHouseBigger", () => {
+  //   const tests: [CardCombo, CardCombo, boolean][] = [
+  //     [comboStubs.FULL_HOUSE_10_4, comboStubs.FULL_HOUSE_J_8, false],
+  //     [comboStubs.FULL_HOUSE_A_2, comboStubs.FULL_HOUSE_K_Q, true],
+  //   ];
+  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+  //     const result = isFullHouseBigger(baseCombo, comparisonCombo);
+  //     assertEquals(result, expectedResult);
+  //   });
+  // });
+
+  // test("isFourOfAKindBigger", () => {
+  //   const tests: [CardCombo, CardCombo, boolean][] = [
+  //     [comboStubs.FOUR_OF_A_KIND_J, comboStubs.FOUR_OF_A_KIND_K, false],
+  //     [comboStubs.FOUR_OF_A_KIND_A, comboStubs.FOUR_OF_A_KIND_Q, true],
+  //   ];
+  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+  //     const result = isFourOfAKindBigger(baseCombo, comparisonCombo);
+  //     assertEquals(result, expectedResult);
+  //   });
+  // });
+
+  // test("isStraightFlushBigger", () => {
+  //   const tests: [CardCombo, CardCombo, boolean][] = [
+  //     [
+  //       comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
+  //       comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
+  //       true,
+  //     ],
+  //     [
+  //       comboStubs.STRAIGHT_FLUSH_HEART_6_10,
+  //       comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
+  //       true,
+  //     ],
+  //     [
+  //       comboStubs.STRAIGHT_FLUSH_CLUB_5_9,
+  //       comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
+  //       true,
+  //     ],
+  //   ];
+  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+  //     const result = isStraightFlushBigger(baseCombo, comparisonCombo);
+  //     assertEquals(result, expectedResult);
+  //   });
+  // });
 });
