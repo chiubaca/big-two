@@ -2,18 +2,25 @@ import type { CardCombo } from "./combo-validators.ts";
 
 export const comboStubs = {
   FLUSH_SPADE_K: [
+    { value: "K", suit: "SPADE" },
     { value: "J", suit: "SPADE" },
+    { value: "3", suit: "SPADE" },
+    { value: "4", suit: "SPADE" },
+    { value: "8", suit: "SPADE" },
+  ],
+  FLUSH_SPADE_2: [
+    { value: "2", suit: "SPADE" },
     { value: "K", suit: "SPADE" },
     { value: "3", suit: "SPADE" },
     { value: "4", suit: "SPADE" },
     { value: "8", suit: "SPADE" },
   ],
   FLUSH_HEART_2: [
+    { value: "2", suit: "HEART" },
     { value: "A", suit: "HEART" },
     { value: "K", suit: "HEART" },
     { value: "10", suit: "HEART" },
     { value: "7", suit: "HEART" },
-    { value: "2", suit: "HEART" },
   ],
   FLUSH_DIAMOND_Q: [
     { value: "Q", suit: "DIAMOND" },
