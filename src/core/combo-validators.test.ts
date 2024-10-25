@@ -113,17 +113,17 @@ describe("test combo comparisons", () => {
     });
   });
 
-  // test("isStraightBigger", () => {
-  //   const tests: [CardCombo, CardCombo, boolean][] = [
-  //     [comboStubs.STRAIGHT_10_A, comboStubs.STRAIGHT_3_7, true],
-  //     [comboStubs.STRAIGHT_7_J, comboStubs.STRAIGHT_5_9, true],
-  //     [comboStubs.STRAIGHT_3_7, comboStubs.STRAIGHT_5_9, false],
-  //   ];
-  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
-  //     const result = isStraightBigger(baseCombo, comparisonCombo);
-  //     assertEquals(result, expectedResult);
-  //   });
-  // });
+  test("isStraightBigger", () => {
+    const tests: [CardCombo, CardCombo, boolean][] = [
+      [comboStubs.STRAIGHT_10_A, comboStubs.STRAIGHT_3_7, true],
+      [comboStubs.STRAIGHT_7_J, comboStubs.STRAIGHT_5_9, true],
+      [comboStubs.STRAIGHT_3_7, comboStubs.STRAIGHT_5_9, false],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isStraightBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
 
   // test("isFullHouseBigger", () => {
   //   const tests: [CardCombo, CardCombo, boolean][] = [
