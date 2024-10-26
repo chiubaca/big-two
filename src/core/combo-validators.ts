@@ -186,7 +186,12 @@ export function isStraightFlushBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
-  return true;
+  const highestBaseComboCard = sortCards(baseCardCombo).at(-1)!;
+  const highestComparisonComboCard = sortCards(comparisonCardCombo).at(-1)!;
+
+  return (
+    getComparisonCardValue(highestBaseComboCard, highestComparisonComboCard) > 0
+  );
 }
 
 export function isComboBigger(): boolean {

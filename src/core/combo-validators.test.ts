@@ -148,27 +148,27 @@ describe("test combo comparisons", () => {
     });
   });
 
-  // test("isStraightFlushBigger", () => {
-  //   const tests: [CardCombo, CardCombo, boolean][] = [
-  //     [
-  //       comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
-  //       comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
-  //       true,
-  //     ],
-  //     [
-  //       comboStubs.STRAIGHT_FLUSH_HEART_6_10,
-  //       comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
-  //       true,
-  //     ],
-  //     [
-  //       comboStubs.STRAIGHT_FLUSH_CLUB_5_9,
-  //       comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
-  //       true,
-  //     ],
-  //   ];
-  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
-  //     const result = isStraightFlushBigger(baseCombo, comparisonCombo);
-  //     assertEquals(result, expectedResult);
-  //   });
-  // });
+  test("isStraightFlushBigger", () => {
+    const tests: [CardCombo, CardCombo, boolean][] = [
+      [
+        comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
+        comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
+        false,
+      ],
+      [
+        comboStubs.STRAIGHT_FLUSH_HEART_6_10,
+        comboStubs.STRAIGHT_FLUSH_DIAMOND_9_K,
+        false,
+      ],
+      [
+        comboStubs.STRAIGHT_FLUSH_CLUB_5_9,
+        comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
+        true,
+      ],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isStraightFlushBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
 });
