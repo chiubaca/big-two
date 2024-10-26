@@ -125,16 +125,17 @@ describe("test combo comparisons", () => {
     });
   });
 
-  // test("isFullHouseBigger", () => {
-  //   const tests: [CardCombo, CardCombo, boolean][] = [
-  //     [comboStubs.FULL_HOUSE_10_4, comboStubs.FULL_HOUSE_J_8, false],
-  //     [comboStubs.FULL_HOUSE_A_2, comboStubs.FULL_HOUSE_K_Q, true],
-  //   ];
-  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
-  //     const result = isFullHouseBigger(baseCombo, comparisonCombo);
-  //     assertEquals(result, expectedResult);
-  //   });
-  // });
+  test("isFullHouseBigger", () => {
+    const tests: [CardCombo, CardCombo, boolean][] = [
+      [comboStubs.FULL_HOUSE_10_4, comboStubs.FULL_HOUSE_J_8, false],
+      [comboStubs.FULL_HOUSE_A_2, comboStubs.FULL_HOUSE_K_Q, true],
+      [comboStubs.FULL_HOUSE_J_8, comboStubs.FULL_HOUSE_10_4, true],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isFullHouseBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
 
   // test("isFourOfAKindBigger", () => {
   //   const tests: [CardCombo, CardCombo, boolean][] = [

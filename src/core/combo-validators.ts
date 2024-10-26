@@ -116,7 +116,55 @@ export function isFullHouseBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
-  return true;
+  const getHighestValueFromFullHouse = (fullHouse: CardCombo) => {
+    /**
+     * We build up an hashmap to count unique card values
+     * the end object will looks something like:
+     * {
+     *   "K":2,
+     *   "5": 3
+     * }
+     */
+    const valueCounts: { [key: string]: number } = {};
+    for (const card of fullHouse) {
+      valueCounts[card.value] = (valueCounts[card.value] || 0) + 1;
+    }
+
+    // find which key has 3
+    const indexWithThree = Object.values(valueCounts).findIndex(
+      (value) => value === 3
+    );
+
+    if (indexWithThree === -1) {
+      throw new Error("Combo was not a full house");
+    }
+
+    const valueThatIsATriple = Object.keys(valueCounts)[indexWithThree];
+
+    const tripleInCombo = fullHouse.filter(
+      (card) => card.value === valueThatIsATriple
+    );
+
+    const highestCardInTriple = sortCards(tripleInCombo).at(-1);
+    return highestCardInTriple;
+  };
+
+  const highestCardInBaseCardCombo =
+    getHighestValueFromFullHouse(baseCardCombo);
+
+  const highestCardInComparisonCardCombo =
+    getHighestValueFromFullHouse(comparisonCardCombo);
+
+  if (!highestCardInBaseCardCombo || !highestCardInComparisonCardCombo) {
+    throw new Error("full house combos cant be compared");
+  }
+
+  return (
+    getComparisonCardValue(
+      highestCardInBaseCardCombo,
+      highestCardInComparisonCardCombo
+    ) > 0
+  );
 }
 
 export function isFourOfAKindBigger(
