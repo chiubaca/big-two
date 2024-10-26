@@ -137,16 +137,16 @@ describe("test combo comparisons", () => {
     });
   });
 
-  // test("isFourOfAKindBigger", () => {
-  //   const tests: [CardCombo, CardCombo, boolean][] = [
-  //     [comboStubs.FOUR_OF_A_KIND_J, comboStubs.FOUR_OF_A_KIND_K, false],
-  //     [comboStubs.FOUR_OF_A_KIND_A, comboStubs.FOUR_OF_A_KIND_Q, true],
-  //   ];
-  //   tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
-  //     const result = isFourOfAKindBigger(baseCombo, comparisonCombo);
-  //     assertEquals(result, expectedResult);
-  //   });
-  // });
+  test("isFourOfAKindBigger", () => {
+    const tests: [CardCombo, CardCombo, boolean][] = [
+      [comboStubs.FOUR_OF_A_KIND_J, comboStubs.FOUR_OF_A_KIND_K, false],
+      [comboStubs.FOUR_OF_A_KIND_A, comboStubs.FOUR_OF_A_KIND_Q, true],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isFourOfAKindBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
 
   // test("isStraightFlushBigger", () => {
   //   const tests: [CardCombo, CardCombo, boolean][] = [

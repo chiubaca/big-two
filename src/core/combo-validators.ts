@@ -131,7 +131,7 @@ export function isFullHouseBigger(
     const filteredCardsByNextValue = combo.filter(
       (card) => card.value !== firstValue
     );
-    if (filteredCardsByNextValue) {
+    if (filteredCardsByNextValue.length === 3) {
       return sortCards(filteredCardsByNextValue).at(-1);
     }
   };
@@ -151,7 +151,35 @@ export function isFourOfAKindBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
-  return true;
+  // TODO: this is mostly the same logic as isFullHouseBigger so definitely can be refactored
+  const getHighestCardInQuad = (combo: CardCombo) => {
+    const firstValue = combo[0].value;
+    const filteredCardsByFirstValue = combo.filter(
+      (card) => card.value === firstValue
+    );
+
+    // If first value appears 3 times, it's the triple
+    if (filteredCardsByFirstValue.length === 4) {
+      return sortCards(filteredCardsByFirstValue).at(-1);
+    }
+    // Otherwise the other value is the triple
+    const filteredCardsByNextValue = combo.filter(
+      (card) => card.value !== firstValue
+    );
+    if (filteredCardsByNextValue.length === 4) {
+      return sortCards(filteredCardsByNextValue).at(-1);
+    }
+  };
+
+  const baseHighestCard = getHighestCardInQuad(baseCardCombo);
+  const comparisonHighestCard = getHighestCardInQuad(comparisonCardCombo);
+
+  if (!baseHighestCard || !comparisonHighestCard) {
+    throw new Error(
+      "Could not detect a triple in the supplied full house combos"
+    );
+  }
+  return getComparisonCardValue(baseHighestCard, comparisonHighestCard) > 0;
 }
 
 export function isStraightFlushBigger(
