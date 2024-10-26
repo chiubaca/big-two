@@ -116,55 +116,35 @@ export function isFullHouseBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
-  const getHighestValueFromFullHouse = (fullHouse: CardCombo) => {
-    /**
-     * We build up an hashmap to count unique card values
-     * the end object will looks something like:
-     * {
-     *   "K":2,
-     *   "5": 3
-     * }
-     */
-    const valueCounts: { [key: string]: number } = {};
-    for (const card of fullHouse) {
-      valueCounts[card.value] = (valueCounts[card.value] || 0) + 1;
-    }
-
-    // find which key has 3
-    const indexWithThree = Object.values(valueCounts).findIndex(
-      (value) => value === 3
+  const getHighestCardInTriple = (combo: CardCombo) => {
+    // We only need to check first 3 cards since full house is already validated
+    const firstValue = combo[0].value;
+    const filteredCardsByFirstValue = combo.filter(
+      (card) => card.value === firstValue
     );
 
-    if (indexWithThree === -1) {
-      throw new Error("Combo was not a full house");
+    // If first value appears 3 times, it's the triple
+    if (filteredCardsByFirstValue.length === 3) {
+      return sortCards(filteredCardsByFirstValue).at(-1);
     }
-
-    const valueThatIsATriple = Object.keys(valueCounts)[indexWithThree];
-
-    const tripleInCombo = fullHouse.filter(
-      (card) => card.value === valueThatIsATriple
+    // Otherwise the other value is the triple
+    const filteredCardsByNextValue = combo.filter(
+      (card) => card.value !== firstValue
     );
-
-    const highestCardInTriple = sortCards(tripleInCombo).at(-1);
-    return highestCardInTriple;
+    if (filteredCardsByNextValue) {
+      return sortCards(filteredCardsByNextValue).at(-1);
+    }
   };
 
-  const highestCardInBaseCardCombo =
-    getHighestValueFromFullHouse(baseCardCombo);
+  const baseHighestCard = getHighestCardInTriple(baseCardCombo);
+  const comparisonHighestCard = getHighestCardInTriple(comparisonCardCombo);
 
-  const highestCardInComparisonCardCombo =
-    getHighestValueFromFullHouse(comparisonCardCombo);
-
-  if (!highestCardInBaseCardCombo || !highestCardInComparisonCardCombo) {
-    throw new Error("full house combos cant be compared");
+  if (!baseHighestCard || !comparisonHighestCard) {
+    throw new Error(
+      "Could not detect a triple in the supplied full house combos"
+    );
   }
-
-  return (
-    getComparisonCardValue(
-      highestCardInBaseCardCombo,
-      highestCardInComparisonCardCombo
-    ) > 0
-  );
+  return getComparisonCardValue(baseHighestCard, comparisonHighestCard) > 0;
 }
 
 export function isFourOfAKindBigger(
