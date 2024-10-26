@@ -99,7 +99,7 @@ describe("validateComboType", () => {
   });
 });
 
-describe("test combo comparisons", () => {
+describe("test same combo compare helpers", () => {
   test("isFlushBigger", () => {
     const tests: [CardCombo, CardCombo, boolean][] = [
       [comboStubs.FLUSH_SPADE_K, comboStubs.FLUSH_DIAMOND_Q, true],
@@ -172,3 +172,7 @@ describe("test combo comparisons", () => {
     });
   });
 });
+
+describe(("isComboBigger")=>{
+
+})
