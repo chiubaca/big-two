@@ -71,11 +71,11 @@ export function isFourOfAKind(cardCombo: CardCombo) {
 export type ValidatedCardCombination = {
   type: ComboType;
   cards: CardCombo;
-} | null;
-export function validateComboType(
-  cardCombo: Card[]
-): ValidatedCardCombination | null {
-  if (cardCombo.length !== 5) return null;
+};
+export function validateComboType(cardCombo: Card[]): ValidatedCardCombination {
+  if (cardCombo.length !== 5) {
+    throw new Error("Too many cards to be a valid combo");
+  }
 
   const cards = cardCombo as CardCombo;
 
@@ -85,7 +85,7 @@ export function validateComboType(
   if (isFullHouse(cards)) return { type: "FULL_HOUSE", cards };
   if (isFlush(cards)) return { type: "FLUSH", cards };
   if (isStraight(cards)) return { type: "STRAIGHT", cards };
-  return null;
+  throw new Error("Cards are not a valid combo");
 }
 
 export function isFlushBigger(
@@ -194,6 +194,55 @@ export function isStraightFlushBigger(
   );
 }
 
-export function isComboBigger(): boolean {
-  return true;
+/**
+ * Use this in conjunction with validateComboType to return a validated card combo object.
+ * Once you have a validated card combo object this function can determine which one is bigger.
+ *
+ * @param baseCardCombo The base card combination to compare.
+ * @param comparisonCardCombo The comparison card combination to compare against.
+ * @returns boolean
+ */
+export function isComboBigger(
+  baseCardCombo: ValidatedCardCombination,
+  comparisonCardCombo: ValidatedCardCombination
+): boolean {
+  if (baseCardCombo.type === comparisonCardCombo.type) {
+    switch (baseCardCombo.type) {
+      case "FLUSH":
+        return isFlushBigger(baseCardCombo.cards, comparisonCardCombo.cards);
+      case "STRAIGHT":
+        return isStraightBigger(baseCardCombo.cards, comparisonCardCombo.cards);
+      case "FULL_HOUSE":
+        return isFullHouseBigger(
+          baseCardCombo.cards,
+          comparisonCardCombo.cards
+        );
+      case "FOUR_OF_A_KIND":
+        return isFourOfAKindBigger(
+          baseCardCombo.cards,
+          comparisonCardCombo.cards
+        );
+      case "STRAIGHT_FLUSH":
+        return isStraightFlushBigger(
+          baseCardCombo.cards,
+          comparisonCardCombo.cards
+        );
+    }
+  }
+  // When combo types are different can evaluate which combo is bigger based on the combo type hierarchy
+  const comboTypeOrder: ComboType[] = [
+    "FLUSH",
+    "STRAIGHT",
+    "FULL_HOUSE",
+    "FOUR_OF_A_KIND",
+    "STRAIGHT_FLUSH",
+  ];
+
+  const indexOfBaseCardType = comboTypeOrder.indexOf(baseCardCombo.type);
+
+  const indexOfComparisonCardType = comboTypeOrder.indexOf(
+    comparisonCardCombo.type
+  );
+
+  return indexOfBaseCardType > indexOfComparisonCardType;
 }

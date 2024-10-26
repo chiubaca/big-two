@@ -15,6 +15,7 @@ import {
   isFullHouseBigger,
   isFourOfAKindBigger,
   isStraightFlushBigger,
+  isComboBigger,
 } from "./combo-validators.ts";
 import { comboStubs } from "./stubs.ts";
 
@@ -173,6 +174,118 @@ describe("test same combo compare helpers", () => {
   });
 });
 
-describe(("isComboBigger")=>{
+describe("isComboBigger", () => {
+  test("same combo types", () => {
+    const tests: [
+      ValidatedCardCombination,
+      ValidatedCardCombination,
+      boolean
+    ][] = [
+      [
+        {
+          type: "FLUSH",
+          cards: comboStubs.FLUSH_CLUB_K,
+        },
+        {
+          type: "FLUSH",
+          cards: comboStubs.FLUSH_SPADE_2,
+        },
+        false,
+      ],
+      [
+        {
+          type: "STRAIGHT",
+          cards: comboStubs.STRAIGHT_3_7,
+        },
+        {
+          type: "STRAIGHT",
+          cards: comboStubs.STRAIGHT_7_J,
+        },
+        false,
+      ],
+      [
+        {
+          type: "FULL_HOUSE",
+          cards: comboStubs.FULL_HOUSE_A_2,
+        },
+        {
+          type: "FULL_HOUSE",
+          cards: comboStubs.FULL_HOUSE_K_Q,
+        },
+        true,
+      ],
+      [
+        {
+          type: "STRAIGHT_FLUSH",
+          cards: comboStubs.STRAIGHT_FLUSH_CLUB_4_8,
+        },
+        {
+          type: "STRAIGHT_FLUSH",
+          cards: comboStubs.STRAIGHT_FLUSH_CLUB_5_9,
+        },
+        false,
+      ],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isComboBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
 
-})
+  test("different combo types", () => {
+    const tests: [
+      ValidatedCardCombination,
+      ValidatedCardCombination,
+      boolean
+    ][] = [
+      [
+        {
+          type: "FLUSH",
+          cards: comboStubs.FLUSH_CLUB_K,
+        },
+        {
+          type: "FULL_HOUSE",
+          cards: comboStubs.FULL_HOUSE_K_Q,
+        },
+        false,
+      ],
+      [
+        {
+          type: "STRAIGHT",
+          cards: comboStubs.STRAIGHT_3_7,
+        },
+        {
+          type: "STRAIGHT_FLUSH",
+          cards: comboStubs.STRAIGHT_FLUSH_CLUB_5_9,
+        },
+        false,
+      ],
+      [
+        {
+          type: "STRAIGHT_FLUSH",
+          cards: comboStubs.STRAIGHT_FLUSH_HEART_6_10,
+        },
+        {
+          type: "FULL_HOUSE",
+          cards: comboStubs.FULL_HOUSE_K_Q,
+        },
+        true,
+      ],
+      [
+        {
+          type: "STRAIGHT",
+          cards: comboStubs.STRAIGHT_10_A,
+        },
+        {
+          type: "FLUSH",
+          cards: comboStubs.FLUSH_CLUB_K,
+        },
+        true,
+      ],
+    ];
+    tests.forEach(([baseCombo, comparisonCombo, expectedResult]) => {
+      const result = isComboBigger(baseCombo, comparisonCombo);
+      assertEquals(result, expectedResult);
+    });
+  });
+});
