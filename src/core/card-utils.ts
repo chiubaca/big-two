@@ -99,7 +99,7 @@ export function isSingleBigger(baseCard: Card, comparisonCard: Card): boolean {
  * @param pairs The pair of cards to validate.
  * @returns boolean
  */
-export function isPairValid(pairs: Pairs) {
+export function isPairValid(pairs: Pairs): boolean {
   return pairs[0].value === pairs[1].value;
 }
 

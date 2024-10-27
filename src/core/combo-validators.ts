@@ -13,11 +13,11 @@ export type ComboType =
   | "FOUR_OF_A_KIND"
   | "STRAIGHT_FLUSH";
 
-export function isFlush(cardCombo: CardCombo) {
+export function isFlush(cardCombo: CardCombo): boolean {
   return cardCombo.every((card) => card.suit === cardCombo[0].suit);
 }
 
-export function isStraight(cardCombo: CardCombo) {
+export function isStraight(cardCombo: CardCombo): boolean {
   // NOTE this implementation does not account for bicycle straights e.g:
   // A,2,3,4,5
   const cardValueSum = cardCombo.reduce((valueSum, currentCard) => {
@@ -26,7 +26,7 @@ export function isStraight(cardCombo: CardCombo) {
   return cardValueSum % 5 === 0;
 }
 
-export function isFullHouse(cardCombo: CardCombo) {
+export function isFullHouse(cardCombo: CardCombo): boolean {
   /**
    * We build up an hashmap to count unique card values
    * the end object will looks something like:
@@ -53,7 +53,7 @@ export function isFullHouse(cardCombo: CardCombo) {
   return counts[0] === 2 && counts[1] === 3;
 }
 
-export function isFourOfAKind(cardCombo: CardCombo) {
+export function isFourOfAKind(cardCombo: CardCombo): boolean {
   // all this logic is the same as isFullHouse.
   const valueCounts: { [key: string]: number } = {};
   for (const card of cardCombo) {
