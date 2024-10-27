@@ -22,8 +22,6 @@ export type Card = {
 
 export type Pairs = [Card, Card];
 
-type RoundMode = "single" | "pairs" | "combo";
-
 /**
  * Creates a standard deck of 52 playing cards for the Big Two game.
  *
