@@ -72,10 +72,15 @@ export type ValidatedCardCombination = {
   type: ComboType;
   cards: CardCombo;
 };
-export function validateComboType(cardCombo: Card[]): ValidatedCardCombination {
-  if (cardCombo.length !== 5) {
-    throw new Error("Too many cards to be a valid combo");
-  }
+
+/**
+ * Validate the type of combo from a given set of cards.
+ * Invalid combos will be returned as null.
+ */
+export function validateComboType(
+  cardCombo: Card[]
+): ValidatedCardCombination | null {
+  if (cardCombo.length !== 5) return null;
 
   const cards = cardCombo as CardCombo;
 
@@ -85,7 +90,7 @@ export function validateComboType(cardCombo: Card[]): ValidatedCardCombination {
   if (isFullHouse(cards)) return { type: "FULL_HOUSE", cards };
   if (isFlush(cards)) return { type: "FLUSH", cards };
   if (isStraight(cards)) return { type: "STRAIGHT", cards };
-  throw new Error("Cards are not a valid combo");
+  return null;
 }
 
 export function isFlushBigger(

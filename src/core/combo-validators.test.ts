@@ -18,6 +18,7 @@ import {
   isComboBigger,
 } from "./combo-validators.ts";
 import { comboStubs } from "./stubs.ts";
+import type { Card } from "./card-utils.ts";
 
 describe("isFlush", () => {
   it("validate a flush", () => {
@@ -96,6 +97,30 @@ describe("validateComboType", () => {
         type: comboType,
         cards: cardCombo,
       } satisfies ValidatedCardCombination);
+    });
+  });
+
+  it("detects invalid combos", () => {
+    const tests: Card[][] = [
+      [
+        { suit: "CLUB", value: "2" },
+        { suit: "HEART", value: "3" },
+        { suit: "CLUB", value: "7" },
+        { suit: "DIAMOND", value: "9" },
+        { suit: "CLUB", value: "J" },
+        { suit: "HEART", value: "A" },
+      ],
+      [
+        { suit: "CLUB", value: "2" },
+        { suit: "CLUB", value: "3" },
+      ],
+      [{ suit: "CLUB", value: "2" }],
+    ];
+
+    tests.forEach((cards) => {
+      const result = validateComboType(cards);
+      const expectedResult = null;
+      assertEquals(result, expectedResult);
     });
   });
 });
