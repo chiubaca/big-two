@@ -36,6 +36,20 @@ export const comboStubs = {
     { value: "5", suit: "CLUB" },
     { value: "3", suit: "CLUB" },
   ],
+  FLUSH_CLUB_2: [
+    { value: "5", suit: "CLUB" },
+    { value: "7", suit: "CLUB" },
+    { value: "10", suit: "CLUB" },
+    { value: "Q", suit: "CLUB" },
+    { value: "2", suit: "CLUB" },
+  ],
+  FLUSH_HEART_K: [
+    { value: "3", suit: "HEART" },
+    { value: "7", suit: "HEART" },
+    { value: "10", suit: "HEART" },
+    { value: "J", suit: "HEART" },
+    { value: "K", suit: "HEART" },
+  ],
   STRAIGHT_3_7: [
     { value: "3", suit: "HEART" },
     { value: "4", suit: "CLUB" },
@@ -91,6 +105,20 @@ export const comboStubs = {
     { value: "10", suit: "DIAMOND" },
     { value: "4", suit: "CLUB" },
     { value: "4", suit: "SPADE" },
+  ],
+  FULL_HOUSE_6_5: [
+    { value: "6", suit: "DIAMOND" },
+    { value: "6", suit: "HEART" },
+    { value: "6", suit: "SPADE" },
+    { value: "5", suit: "DIAMOND" },
+    { value: "5", suit: "HEART" },
+  ],
+  FULL_HOUSE_2_A: [
+    { value: "2", suit: "CLUB" },
+    { value: "2", suit: "HEART" },
+    { value: "2", suit: "SPADE" },
+    { value: "5", suit: "HEART" },
+    { value: "5", suit: "CLUB" },
   ],
   FOUR_OF_A_KIND_J: [
     { value: "J", suit: "HEART" },

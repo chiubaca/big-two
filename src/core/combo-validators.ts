@@ -2,6 +2,7 @@ import {
   getComparisonCardValue,
   getSequenceValue,
   sortCards,
+  SUITS,
   type Card,
 } from "./card-utils.ts";
 
@@ -97,6 +98,16 @@ export function isFlushBigger(
   baseCardCombo: CardCombo,
   comparisonCardCombo: CardCombo
 ): boolean {
+  // Compare suits if they're different first
+  const baseCardComboSuit = baseCardCombo[0].suit;
+  const comparisonCardComboSuit = comparisonCardCombo[0].suit;
+  if (baseCardComboSuit !== comparisonCardComboSuit) {
+    return (
+      SUITS.indexOf(baseCardComboSuit) > SUITS.indexOf(comparisonCardComboSuit)
+    );
+  }
+
+  // If suits are the same compare the highest cards
   const highestBaseComboCard = sortCards(baseCardCombo).at(-1)!;
   const highestComparisonComboCard = sortCards(comparisonCardCombo).at(-1)!;
 
